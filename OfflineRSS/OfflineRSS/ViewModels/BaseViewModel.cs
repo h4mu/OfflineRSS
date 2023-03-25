@@ -12,7 +12,9 @@ namespace OfflineRSS.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
+        public IDataStore<Item> ItemDataStore => DependencyService.Get<IDataStore<Item>>() ?? new ItemDataStore();
+        public IDataStore<Feed> FeedDataStore => DependencyService.Get<IDataStore<Feed>>() ?? new FeedDataStore();
+        public IDataStore<Article> ArticleDataStore => DependencyService.Get<IDataStore<Article>>() ?? new ArticleDataStore();
 
         bool isBusy = false;
         public bool IsBusy

@@ -10,22 +10,22 @@ using OfflineRSS.Views;
 
 namespace OfflineRSS.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class ArticlesViewModel : BaseViewModel
     {
-        public ObservableCollection<Item> Items { get; set; }
+        public ObservableCollection<Article> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
 
-        public ItemsViewModel()
+        public ArticlesViewModel()
         {
             Title = "Browse";
-            Items = new ObservableCollection<Item>();
+            Items = new ObservableCollection<Article>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
+            MessagingCenter.Subscribe<NewItemPage, Article>(this, "AddItem", async (obj, item) =>
             {
-                var newItem = item as Item;
+                var newItem = item as Article;
                 Items.Add(newItem);
-                await DataStore.AddItemAsync(newItem);
+                await ArticleDataStore.AddItemAsync(newItem);
             });
         }
 
@@ -39,7 +39,7 @@ namespace OfflineRSS.ViewModels
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
+                var items = await ArticleDataStore.GetItemsAsync(true);
                 foreach (var item in items)
                 {
                     Items.Add(item);
